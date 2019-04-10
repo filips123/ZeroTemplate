@@ -1,0 +1,34 @@
+language: node_js
+
+node_js:
+  - 10
+
+cache: yarn
+
+addons:
+  apt:
+    packages:
+      - python
+      - python-dev
+      - python-pip
+
+before_install:
+  - travis_retry yarn global add gulp@4 standard@12
+
+  - wget https://github.com/HelloZeroNet/ZeroNet/archive/master.tar.gz
+  - tar xvpfz master.tar.gz
+  - cd ZeroNet-master && pip install -r requirements.txt && cd ..
+  - mv ZeroNet-master /tmp/zeronet
+
+install:
+  - travis_retry yarn install
+
+script:
+  - yarn lint
+
+after_success:
+- |
+  if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]
+  then
+    yarn deploy --zeronet=/tmp/zeronet --privkey=${ZERONET_PRIVKEY} | sed 2d
+  fi
