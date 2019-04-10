@@ -1,0 +1,34 @@
+{
+  "name": "zerotemplate",
+  "description": "Template for creating and developing ZeroNet sites",
+  "private": true,
+  "license": "MIT",
+  "homepage": "https://github.com/filips123/ZeroTemplate/",
+  "bugs": "https://github.com/filips123/ZeroTemplate/issues/",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "browserify": "^14.4.0",
+    "browserify-shim": "^3.8.14",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^4.1.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-sass": "^3.2.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.1",
+    "gulp-util": "^3.0.8",
+    "patch-package": "^4.0.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.11.0",
+    "vueify": "^9.4.1",
+    "standard": "^12.0.1"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "watch": "gulp watch",
+    "lint": "standard",
+    "deploy": "gulp deploy"
+  }
+}
