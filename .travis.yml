@@ -3,7 +3,10 @@ language: node_js
 node_js:
   - 10
 
-cache: yarn
+cache:
+  yarn: true
+  directories:
+    - $HOME/.cache/pip
 
 addons:
   apt:
@@ -15,9 +18,9 @@ addons:
 before_install:
   - travis_retry yarn global add gulp@4 standard@12
 
-  - wget https://github.com/HelloZeroNet/ZeroNet/archive/master.tar.gz
+  - travis_retry wget https://github.com/HelloZeroNet/ZeroNet/archive/master.tar.gz
   - tar xvpfz master.tar.gz
-  - cd ZeroNet-master && pip install -r requirements.txt && cd ..
+  - cd ZeroNet-master && travis_retry pip install --user -r requirements.txt && cd ..
   - mv ZeroNet-master /tmp/zeronet
 
 install:
