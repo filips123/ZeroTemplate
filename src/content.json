@@ -1,22 +1,22 @@
 {
-  "address": "your-site-address",
+    "address": "your-site-address",
 
-  "title": "ZeroTemplate",
-  "description": "Template for creating and developing ZeroNet sites",
+    "title": "ZeroTemplate",
+    "description": "Template for creating and developing ZeroNet sites",
 
-  "background-color": "#FFFFFF",
+    "background-color": "#FFFFFF",
 
-  "viewport": "width=device-width, initial-scale=0.8",
-  "favicon": "favicon.ico",
+    "viewport": "width=device-width, initial-scale=0.8",
+    "favicon": "favicon.ico",
 
-  "translate": ["index.html", "js/all.js"],
+    "translate": ["index.html", "js/all.js"],
 
-  "ignore": "(js|css|sass)/(?!all.(js|css))",
-  "inner_path": "content.json",
+    "ignore": "(js|css|sass)/(?!all.(js|css))",
+    "inner_path": "content.json",
 
-  "postmessage_nonce_security": true,
-  "signers_sign": "your-site-signers",
-  "signs_required": 1,
+    "postmessage_nonce_security": true,
+    "signers_sign": "your-site-signers",
+    "signs_required": 1,
 
-  "zeronet_version": "0.6.5"
+    "zeronet_version": "0.6.5"
 }
