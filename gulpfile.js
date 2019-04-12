@@ -36,6 +36,7 @@ gulp.task('static', function () {
 
 gulp.task('styles', function () {
   return gulp.src(paths.src.styles)
+    .pipe(sourcemaps.init())
     .pipe(sass({
       'includePaths': [
         'node_modules'
@@ -43,6 +44,7 @@ gulp.task('styles', function () {
     }).on('error', sass.logError))
     .pipe(minify())
     .pipe(concat('all.css'))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.dist.styles))
 })
 
