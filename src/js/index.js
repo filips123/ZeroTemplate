@@ -1,4 +1,4 @@
-'use struct'
+'use strict'
 
 const ZeroFrame = require('./ZeroFrame')
 
