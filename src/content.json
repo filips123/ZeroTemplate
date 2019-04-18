@@ -18,5 +18,10 @@
     "signers_sign": "your-site-signers",
     "signs_required": 1,
 
-    "zeronet_version": "0.6.5"
+    "zeronet_version": "0.6.5",
+
+    "files": {},
+    "files_optional": {},
+    "signs": {},
+    "modified": 0
 }
