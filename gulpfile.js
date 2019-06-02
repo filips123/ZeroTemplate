@@ -19,7 +19,7 @@ const paths = {
   entries: ['src/js/index.js'],
   src: {
     static: ['src/**/*', '!src/css/**/*.css', '!src/sass/**/*.sass', '!src/js/**/*.js', '!src/main.js'],
-    styles: ['src/css/**/*.css', '.src/sass/**/*.sass'],
+    styles: ['src/css/**/*.css', 'src/sass/**/*.sass'],
     scripts: ['src/js/**/*.js']
   },
   dist: {
