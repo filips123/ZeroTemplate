@@ -1,15 +1,22 @@
-const vueify = require('vueify')
-
 const gulp = require('gulp')
 const browserify = require('browserify')
+
 const source = require('vinyl-source-stream')
-const gutil = require('gulp-util')
-const sourcemaps = require('gulp-sourcemaps')
 const buffer = require('vinyl-buffer')
 
+const sourcemaps = require('gulp-sourcemaps')
+
 const sass = require('gulp-sass')
-const minify = require('gulp-minify-css')
+const prefix = require('gulp-autoprefixer')
+const clean = require('gulp-clean-css')
 const concat = require('gulp-concat')
+
+const uglify = require('gulp-terser')
+const babelify = require('babelify')
+
+const argv = require('minimist')(process.argv.slice(2))
+const log = require('fancy-log')
+const PluginError = require('plugin-error')
 
 const path = require('path')
 const { exec } = require('child_process')
@@ -18,7 +25,7 @@ const paths = {
   content: './src/content.json',
   entries: ['src/js/index.js'],
   src: {
-    static: ['src/**/*', '!src/css/**/*.css', '!src/sass/**/*.sass', '!src/js/**/*.js', '!src/main.js'],
+    static: ['src/**/*', '!src/css/**/*.css', '!src/sass/**/*.sass', '!src/js/**/*.js'],
     styles: ['src/css/**/*.css', 'src/sass/**/*.sass'],
     scripts: ['src/js/**/*.js']
   },
@@ -42,7 +49,8 @@ gulp.task('styles', function () {
         'node_modules'
       ]
     }).on('error', sass.logError))
-    .pipe(minify())
+    .pipe(prefix())
+    .pipe(clean())
     .pipe(concat('all.css'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.dist.styles))
@@ -57,11 +65,16 @@ gulp.task('scripts', function () {
     packageCache: {},
     insertGlobals: true
   })
-    .transform(vueify)
+    .transform(babelify, {
+      presets: [
+        ['@babel/preset-env']
+      ]
+    })
     .bundle()
     .pipe(source('all.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(uglify())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.dist.scripts))
 })
@@ -75,12 +88,12 @@ gulp.task('watch', function () {
 })
 
 gulp.task('deploy', gulp.series('build', function (done) {
-  let silent = gutil.env.silent
-  let zeronet = gutil.env.zeronet
-  let privkey = gutil.env.privkey ? gutil.env.privkey : ''
+  let silent = argv.silent
+  let zeronet = argv.zeronet
+  let privkey = argv.privkey ? argv.privkey : ''
 
   if (!zeronet) {
-    throw new gutil.PluginError({
+    throw new PluginError({
       plugin: 'deploy',
       message: 'Empty path for ZeroNet installation'
     })
@@ -92,7 +105,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
   let from = [ path.join(paths.dist.static, '**/*') ]
   let to = path.join(zeronet, 'data', address)
 
-  gutil.log('Downloading site')
+  log('Downloading site')
 
   let download = exec('python zeronet.py siteDownload ' + address, { cwd: zeronet })
   if (!silent) {
@@ -102,7 +115,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
 
   download.stderr.on('data', function (data) {
     if (data.indexOf('Error') >= 0) {
-      throw new gutil.PluginError({
+      throw new PluginError({
         plugin: 'deploy',
         message: 'Error while downloading'
       })
@@ -110,12 +123,12 @@ gulp.task('deploy', gulp.series('build', function (done) {
   })
 
   download.on('exit', function (code, signal) {
-    gutil.log('Downloading done')
+    log('Downloading done')
 
     gulp.src(from)
       .pipe(gulp.dest(to))
 
-    gutil.log('Signing site')
+    log('Signing site')
 
     let sign = exec('python zeronet.py siteSign ' + address + ' ' + privkey, { cwd: zeronet })
     if (!silent) {
@@ -125,13 +138,13 @@ gulp.task('deploy', gulp.series('build', function (done) {
 
     sign.stderr.on('data', function (data) {
       if (data.indexOf('SignError') >= 0) {
-        throw new gutil.PluginError({
+        throw new PluginError({
           plugin: 'deploy',
           message: 'Private key invalid'
         })
       }
       if (data.indexOf('Error') >= 0) {
-        throw new gutil.PluginError({
+        throw new PluginError({
           plugin: 'deploy',
           message: 'Error while signing'
         })
@@ -139,9 +152,9 @@ gulp.task('deploy', gulp.series('build', function (done) {
     })
 
     sign.on('exit', function (code, signal) {
-      gutil.log('Signing done')
+      log('Signing done')
 
-      gutil.log('Publishing site')
+      log('Publishing site')
 
       let publish = exec('python zeronet.py sitePublish ' + address, { cwd: zeronet })
       if (!silent) {
@@ -151,7 +164,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
 
       publish.stderr.on('data', function (data) {
         if (data.indexOf('Error') >= 0) {
-          throw new gutil.PluginError({
+          throw new PluginError({
             plugin: 'deploy',
             message: 'Error while publishing'
           })
@@ -159,7 +172,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
       })
 
       publish.on('exit', function (code, signal) {
-        gutil.log('Publishing done')
+        log('Publishing done')
         done()
       })
     })
