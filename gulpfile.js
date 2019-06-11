@@ -5,14 +5,12 @@ const source = require('vinyl-source-stream')
 const buffer = require('vinyl-buffer')
 
 const sourcemaps = require('gulp-sourcemaps')
+const uglify = require('gulp-terser')
 
 const sass = require('gulp-sass')
 const prefix = require('gulp-autoprefixer')
 const clean = require('gulp-clean-css')
 const concat = require('gulp-concat')
-
-const uglify = require('gulp-terser')
-const babelify = require('babelify')
 
 const argv = require('minimist')(process.argv.slice(2))
 const log = require('fancy-log')
@@ -65,11 +63,6 @@ gulp.task('scripts', function () {
     packageCache: {},
     insertGlobals: true
   })
-    .transform(babelify, {
-      presets: [
-        ['@babel/preset-env']
-      ]
-    })
     .bundle()
     .pipe(source('all.js'))
     .pipe(buffer())

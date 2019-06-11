@@ -8,10 +8,7 @@
   "dependencies": {
   },
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
     "browserify": "^16.2.3",
-    "babelify": "^10.0.0",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.1.0",
     "gulp-concat": "^2.6.1",
