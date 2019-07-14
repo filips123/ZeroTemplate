@@ -12,7 +12,10 @@ const prefix = require('gulp-autoprefixer')
 const clean = require('gulp-clean-css')
 const concat = require('gulp-concat')
 
-const argv = require('minimist')(process.argv.slice(2))
+const argv = require('minimist')(process.argv.slice(2), {
+  default: { publish: true }
+})
+
 const log = require('fancy-log')
 const PluginError = require('plugin-error')
 
