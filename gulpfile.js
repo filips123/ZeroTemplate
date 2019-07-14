@@ -149,6 +149,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
       log('Signing done')
 
       if (!doPublish) {
+        log('Skipping publishing')
         done()
         return
       }
