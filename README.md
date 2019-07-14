@@ -81,6 +81,12 @@ You can also specify your private key with `--privkey` argument. Note that your 
 $ yarn deploy --zeronet=/path/to/zeronet --privkey=sEcReTkEy
 ```
 
+If you would like to prevent publishing your site publicly, you can use the `--no-publish` option. Site files will still be built and signed.
+
+```bash
+$ yarn deploy --zeronet=/path/to/zeronet --privkey=sEcReTkEy --no-publish
+```
+
 #### Continuous deployment
 
 You can also use continuous deployment with Travis CI.
