@@ -84,6 +84,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
   let silent = argv.silent
   let zeronet = argv.zeronet
   let privkey = argv.privkey ? argv.privkey : ''
+  let doPublish = argv.publish
 
   if (!zeronet) {
     throw new PluginError({
@@ -146,6 +147,11 @@ gulp.task('deploy', gulp.series('build', function (done) {
 
     sign.on('exit', function (code, signal) {
       log('Signing done')
+
+      if (!doPublish) {
+        done()
+        return
+      }
 
       log('Publishing site')
 
