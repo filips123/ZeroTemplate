@@ -46,7 +46,7 @@ gulp.task('styles', function () {
   return gulp.src(paths.src.styles)
     .pipe(sourcemaps.init())
     .pipe(sass({
-      'includePaths': [
+      includePaths: [
         'node_modules'
       ]
     }).on('error', sass.logError))
@@ -84,10 +84,10 @@ gulp.task('watch', function () {
 })
 
 gulp.task('deploy', gulp.series('build', function (done) {
-  let silent = argv.silent
-  let zeronet = argv.zeronet
-  let privkey = argv.privkey ? argv.privkey : ''
-  let doPublish = argv.publish
+  const silent = argv.silent
+  const zeronet = argv.zeronet
+  const privkey = argv.privkey ? argv.privkey : ''
+  const doPublish = argv.publish
 
   if (!zeronet) {
     throw new PluginError({
@@ -96,15 +96,15 @@ gulp.task('deploy', gulp.series('build', function (done) {
     })
   }
 
-  let content = require(paths.content)
-  let address = content.address
+  const content = require(paths.content)
+  const address = content.address
 
-  let from = [ path.join(paths.dist.static, '**/*') ]
-  let to = path.join(zeronet, 'data', address)
+  const from = [path.join(paths.dist.static, '**/*')]
+  const to = path.join(zeronet, 'data', address)
 
   log('Downloading site')
 
-  let download = exec('python zeronet.py siteDownload ' + address, { cwd: zeronet })
+  const download = exec('python zeronet.py siteDownload ' + address, { cwd: zeronet })
   if (!silent) {
     download.stdout.pipe(process.stdout)
     download.stderr.pipe(process.stderr)
@@ -127,7 +127,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
 
     log('Signing site')
 
-    let sign = exec('python zeronet.py siteSign ' + address + ' ' + privkey, { cwd: zeronet })
+    const sign = exec('python zeronet.py siteSign ' + address + ' ' + privkey, { cwd: zeronet })
     if (!silent) {
       sign.stdout.pipe(process.stdout)
       sign.stderr.pipe(process.stderr)
@@ -159,7 +159,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
 
       log('Publishing site')
 
-      let publish = exec('python zeronet.py sitePublish ' + address, { cwd: zeronet })
+      const publish = exec('python zeronet.py sitePublish ' + address, { cwd: zeronet })
       if (!silent) {
         publish.stdout.pipe(process.stdout)
         publish.stderr.pipe(process.stderr)

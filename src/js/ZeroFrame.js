@@ -37,8 +37,8 @@ class ZeroFrame {
   }
 
   onMessage (e) {
-    let message = e.data
-    let cmd = message.cmd
+    const message = e.data
+    const cmd = message.cmd
     if (cmd === CMD_RESPONSE) {
       if (this.waiting_cb[message.to] !== undefined) {
         this.waiting_cb[message.to](message.result)
