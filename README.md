@@ -15,7 +15,7 @@ It supports [NPM][link-npm] dependencies and it uses [Gulp][link-gulp] and [Brow
 
 You must have [Git][link-git] and [Node.js][link-nodejs] installed on your computer. It is recommended that use the latest versions.
 
-It is also recommended to also install [Python][link-python] and [ZeroNet][link-zeronet] for easier developing and deploying. Currently, only Python 2.7 is supported but Python 3 version of ZeroNet is in development.
+It is also recommended to also install [Python][link-python] and [ZeroNet][link-zeronet] for easier developing and deploying. You need to use Python 3 version of ZeroNet.
 
 ### Start
 

@@ -104,7 +104,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
 
   log('Downloading site')
 
-  const download = exec('python zeronet.py siteDownload ' + address, { cwd: zeronet })
+  const download = exec('python3 zeronet.py siteDownload ' + address, { cwd: zeronet })
   if (!silent) {
     download.stdout.pipe(process.stdout)
     download.stderr.pipe(process.stderr)
@@ -127,7 +127,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
 
     log('Signing site')
 
-    const sign = exec('python zeronet.py siteSign ' + address + ' ' + privkey, { cwd: zeronet })
+    const sign = exec('python3 zeronet.py siteSign ' + address + ' ' + privkey, { cwd: zeronet })
     if (!silent) {
       sign.stdout.pipe(process.stdout)
       sign.stderr.pipe(process.stderr)
@@ -159,7 +159,7 @@ gulp.task('deploy', gulp.series('build', function (done) {
 
       log('Publishing site')
 
-      const publish = exec('python zeronet.py sitePublish ' + address, { cwd: zeronet })
+      const publish = exec('python3 zeronet.py sitePublish ' + address, { cwd: zeronet })
       if (!silent) {
         publish.stdout.pipe(process.stdout)
         publish.stderr.pipe(process.stderr)
